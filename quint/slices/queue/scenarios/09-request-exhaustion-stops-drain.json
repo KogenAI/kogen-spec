@@ -1,0 +1,13 @@
+{
+  "name": "09-request-exhaustion-stops-drain",
+  "about": "After the stream request policy exhausts attempts, the Build reports stopped_provider: exit 4 retains alpha and does not start bravo. A later queue start retries alpha before bravo.",
+  "steps": [
+    {"do": ["Enqueue", {"slug": "alpha", "time": 1, "priority": 0}]},
+    {"do": ["Enqueue", {"slug": "bravo", "time": 2, "priority": 0}]},
+    {"do": ["Start"], "expect": {"current": "alpha"}},
+    {"do": ["Outcome", {"kind": "stopped_provider"}], "expect": {"line": "stopped_because", "exit": 4, "held": false, "phase": "idle", "queue": ["alpha", "bravo"], "built": 1, "landed": 0}},
+    {"do": ["Start"], "expect": {"current": "alpha", "queue": ["bravo"], "built": 0}},
+    {"do": ["Outcome", {"kind": "landed"}], "expect": {"current": "bravo", "queue": [], "built": 1, "landed": 1}},
+    {"do": ["Outcome", {"kind": "landed"}], "expect": {"line": "done", "exit": 0, "built": 2, "landed": 2}}
+  ]
+}

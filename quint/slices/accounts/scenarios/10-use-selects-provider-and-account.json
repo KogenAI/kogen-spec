@@ -1,0 +1,17 @@
+{
+  "name": "10-use-selects-provider-and-account",
+  "about": "Provider use selects both provider and saved account globally and for a project.",
+  "steps": [
+    {"do": ["Login", {"provider": "grok", "success": true, "email": "g@example.test", "expires": 0, "hasExpiry": false, "notice": false}]},
+    {"do": ["Login", {"provider": "chatgpt", "success": true, "email": "c@example.test", "expires": 0, "hasExpiry": false, "notice": false}]},
+    {"do": ["Use", {"provider": "grok", "label": "default", "project": "", "projectExists": false}], "expect": {"selectedDefault": "grok"}},
+    {"do": ["Resolve", {"project": ""}], "expect": {"resolvedProvider": "grok", "resolvedLabel": "default"}},
+    {"do": ["Use", {"provider": "chatgpt", "label": "default", "project": "", "projectExists": false}], "expect": {"selectedDefault": "chatgpt"}},
+    {"do": ["Resolve", {"project": ""}], "expect": {"resolvedProvider": "chatgpt", "resolvedLabel": "default"}},
+    {"do": ["Project", {"name": "alpha", "exists": true, "provider": "chatgpt", "account": ""}]},
+    {"do": ["Use", {"provider": "grok", "label": "default", "project": "alpha", "projectExists": true}], "expect": {"providerAlpha": "grok", "grokAlpha": "default"}},
+    {"do": ["Resolve", {"project": "alpha"}], "expect": {"resolvedProvider": "grok", "resolvedLabel": "default"}},
+    {"do": ["Use", {"provider": "chatgpt", "label": "default", "project": "alpha", "projectExists": true}], "expect": {"providerAlpha": "chatgpt", "chatAlpha": "default"}},
+    {"do": ["Resolve", {"project": "alpha"}], "expect": {"resolvedProvider": "chatgpt", "resolvedLabel": "default"}}
+  ]
+}

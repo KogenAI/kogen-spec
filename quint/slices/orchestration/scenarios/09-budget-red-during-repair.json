@@ -1,0 +1,14 @@
+{
+  "name": "09-budget-red-during-repair",
+  "about": "Budget expiry during the repair stage still verifies and snapshots the red current tree, selects it, and parks a reference without another repair or rung.",
+  "steps": [
+    {"do": ["Begin", {"valid": true, "branchOk": true, "claimFree": true, "witness": false, "hard": false, "maxR": 3}]},
+    {"do": ["Probe", {"confined": true}]},
+    {"do": ["Plan"]},
+    {"do": ["Setup", {"ok": true}]},
+    {"do": ["BaseAccept", {"runner": true}]},
+    {"do": ["Verify", {"red": true, "landable": false, "counted": true, "count": 2}], "expect": {"phase": "repair", "repairs": 6, "snapshots": 0}},
+    {"do": ["Budget"], "expect": {"phase": "budget_verify", "snapshots": 0, "status": "running", "claim": true}},
+    {"do": ["Verify", {"red": true, "landable": false, "counted": true, "count": 2}], "expect": {"phase": "done", "status": "failed", "reason": "best_candidate", "parkedRef": true, "snapshots": 1, "repairs": 6, "rung": 1, "claim": false, "exit": 1}}
+  ]
+}

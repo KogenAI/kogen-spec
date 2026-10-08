@@ -1,0 +1,14 @@
+{
+  "name": "08-budget-green-candidate",
+  "about": "Budget expiry during development triggers final verification and snapshots the green candidate, which may land without another rung.",
+  "steps": [
+    {"do": ["Begin", {"valid": true, "branchOk": true, "claimFree": true, "witness": false, "hard": false, "maxR": 3}]},
+    {"do": ["Probe", {"confined": true}]},
+    {"do": ["Plan"]},
+    {"do": ["Setup", {"ok": true}]},
+    {"do": ["BaseAccept", {"runner": true}]},
+    {"do": ["Budget"], "expect": {"phase": "budget_verify", "snapshots": 0, "status": "running", "claim": true}},
+    {"do": ["Verify", {"red": false, "landable": true, "counted": true, "count": 0}], "expect": {"phase": "b9", "landable": true, "snapshots": 1, "reason": "budget", "rung": 1, "status": "running", "claim": true}},
+    {"do": ["Land", {"how": "landed"}], "expect": {"status": "landed", "claim": false, "parkedRef": false, "exit": 0}}
+  ]
+}

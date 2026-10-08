@@ -1,0 +1,13 @@
+{
+  "name": "07-landed-cleanup-pending",
+  "about": "Post-CAS recovery stays landed while preserving later unverified work; failed cleanup retains work/ref and retries without changing outcome.",
+  "steps": [
+    {"do": ["Put", {"id": "r1", "status": "running", "alive": false, "onBase": true, "lastEvent": "other", "incoming": true, "queued": false, "claim": true, "reason": "", "work": true, "preserved": false, "preserveOk": false}]},
+    {"do": ["Recover"], "expect": {"last": "ok", "line": "cleanup_failure", "claim": "", "runs": {"r1": {"status": "landed", "reason": "reconciled", "work": true, "incoming": true, "preserved": false, "cleanupPending": true, "queued": false}}}},
+    {"do": ["Reapprove", {"id": "r1"}], "expect": {"last": "cleanup_pending"}},
+    {"do": ["PreservationResult", {"id": "r1", "ok": true}]},
+    {"do": ["Recover"], "expect": {"last": "ok", "line": "reconciled", "claim": "", "runs": {"r1": {"status": "landed", "reason": "reconciled", "work": false, "incoming": false, "preserved": true, "cleanupPending": false, "queued": false}}}},
+    {"do": ["Recover"], "expect": {"line": "unchanged", "runs": {"r1": {"status": "landed", "preserved": true}}}},
+    {"do": ["Reapprove", {"id": "r1"}], "expect": {"last": "already_landed"}}
+  ]
+}

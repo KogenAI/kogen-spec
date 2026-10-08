@@ -1,0 +1,16 @@
+{
+  "name": "07-red-audit-cannot-land",
+  "about": "An auditor cannot turn a red verified candidate into a landing permission.",
+  "steps": [
+    {"do": ["Begin", {"valid": true, "branchOk": true, "claimFree": true, "witness": false, "hard": false, "maxR": 1}]},
+    {"do": ["Probe", {"confined": true}]},
+    {"do": ["Plan"]},
+    {"do": ["Setup", {"ok": true}]},
+    {"do": ["BaseAccept", {"runner": true}]},
+    {"do": ["Verify", {"red": true, "landable": false, "counted": true, "count": 2}]},
+    {"do": ["Repair", {"lower": true}]},
+    {"do": ["Verify", {"red": true, "landable": false, "counted": true, "count": 2}], "expect": {"phase": "b6", "landable": false}},
+    {"do": ["Audit", {"nowLandable": true}], "expect": {"phase": "done", "status": "failed", "landable": false}},
+    {"do": ["Land", {"how": "landed"}], "expect": {"last": "not_landing", "status": "failed"}}
+  ]
+}

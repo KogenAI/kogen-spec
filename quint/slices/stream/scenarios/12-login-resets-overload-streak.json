@@ -1,0 +1,11 @@
+{
+  "name": "12-login-resets-overload-streak",
+  "about": "A login error between overloads resets the consecutive-overload streak; fallback needs two new consecutive overloads.",
+  "steps": [
+    {"do": ["Open", {"role": "builder", "model": "luna", "fallbackOn": true, "refreshable": true, "bounded": true, "wall": 100000, "mode": "build"}], "expect": {"phase": "open", "overloads": 0}},
+    {"do": ["Result", {"kind": "overload", "items": false}], "expect": {"decision": "retry", "model": "luna", "overloads": 1, "attempt": 2}},
+    {"do": ["Result", {"kind": "login", "items": false}], "expect": {"decision": "refresh", "model": "luna", "overloads": 0, "refreshed": true}},
+    {"do": ["Result", {"kind": "overload", "items": false}], "expect": {"decision": "retry", "model": "luna", "overloads": 1, "attempt": 3}},
+    {"do": ["Result", {"kind": "overload", "items": false}], "expect": {"decision": "switch", "model": "sol", "overloads": 0, "attempt": 4}}
+  ]
+}

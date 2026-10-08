@@ -1,0 +1,16 @@
+{
+  "name": "09-slug-watch-waits-for-idle",
+  "about": "Known slug watch waits for queue and agents to become idle, then reports the slug's result.",
+  "steps": [
+    {"do": ["Row", {"slug": "alpha", "status": "building", "priority": 0, "at": 1, "blocks": "", "sched": "", "started": 1, "index": 0}]},
+    {"do": ["Queue", {"running": true}]},
+    {"do": ["Watch", {"slug": "alpha"}], "expect": {"exit": -1}},
+    {"do": ["Row", {"slug": "alpha", "status": "landed", "priority": 0, "at": 1, "blocks": "", "sched": "", "started": 1, "index": 0}]},
+    {"do": ["Watch", {"slug": "alpha"}], "expect": {"exit": -1}},
+    {"do": ["Queue", {"running": false}]},
+    {"do": ["Agents", {"busy": 1}]},
+    {"do": ["Watch", {"slug": "alpha"}], "expect": {"exit": -1}},
+    {"do": ["Agents", {"busy": 0}]},
+    {"do": ["Watch", {"slug": "alpha"}], "expect": {"exit": 0}}
+  ]
+}

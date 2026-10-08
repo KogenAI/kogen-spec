@@ -1,0 +1,14 @@
+{
+  "name": "08-unrelated-approved-remove",
+  "about": "Landing bravo includes alpha's tracked files but does not remove alpha's approval or allow its removal without force.",
+  "steps": [
+    {"do": ["Shape", {"slug": "alpha", "result": "valid"}]},
+    {"do": ["Approve", {"slug": "alpha", "mode": "commit", "hash": "aaaa1111", "prefixOk": true, "race": "none"}]},
+    {"do": ["Shape", {"slug": "bravo", "result": "valid"}]},
+    {"do": ["Approve", {"slug": "bravo", "mode": "commit", "hash": "bbbb2222", "prefixOk": true, "race": "none"}]},
+    {"do": ["Adopt", {"slug": "bravo", "status": "building"}]},
+    {"do": ["Adopt", {"slug": "bravo", "status": "landed"}]},
+    {"do": ["Remove", {"slug": "alpha", "force": false}], "expect": {"last": "intent/remove_requires_force", "exit": 2, "life": {"alpha": "approved", "bravo": "landed"}, "refs": {"alpha": {"n": 1, "hash": "aaaa1111"}, "bravo": {"n": 1, "hash": "bbbb2222"}}}},
+    {"do": ["Remove", {"slug": "alpha", "force": true}], "expect": {"last": "ok", "did": "removed", "life": {"bravo": "landed"}, "refs": {"bravo": {"n": 1, "hash": "bbbb2222"}}}}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "10-stop-after-failed-or-parked",
+  "about": "A requested stop preserves the running drain's failed or parked Build exit.",
+  "steps": [
+    {"do": ["Enqueue", {"slug": "alpha", "time": 1, "priority": 0}]},
+    {"do": ["Start"]},
+    {"do": ["Halt"]},
+    {"do": ["Outcome", {"kind": "failed"}], "expect": {"line": "stopped_on_request", "exit": 1, "built": 1, "landed": 0}},
+    {"do": ["Enqueue", {"slug": "bravo", "time": 2, "priority": 0}]},
+    {"do": ["Start"]},
+    {"do": ["Halt"]},
+    {"do": ["Outcome", {"kind": "parked"}], "expect": {"line": "stopped_on_request", "exit": 1, "built": 1, "landed": 0}}
+  ]
+}

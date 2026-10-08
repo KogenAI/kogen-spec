@@ -1,0 +1,3 @@
+The public Kogen CLI command tree is fixed: `kogen status [<slug>] [--watch] [--json]`, `kogen intent shape <slug> <file|->`, `kogen intent approve <slug> [<hash>]`, `kogen intent remove <slug> [--force]`, `kogen queue start [--detach] | stop`, `kogen provider list | login chatgpt | logout chatgpt | use chatgpt --as <label> [--project]`, `kogen version`, `kogen help`, with options --project/--origin/--base/--by. Commands, subcommands, and flags are fixed to preserve a stable CLI.
+
+Decision dated 6 Oct 2026: provider names may include `grok` (SuperGrok subscription) alongside `chatgpt` on the existing provider commands. This adds no commands or flags.

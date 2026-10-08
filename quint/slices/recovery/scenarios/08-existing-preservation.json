@@ -1,0 +1,9 @@
+{
+  "name": "08-existing-preservation",
+  "about": "Adopt a complete publication after a record-publication crash, even when a new publication would fail. preserved means the latest work, not an older snapshot.",
+  "steps": [
+    {"do": ["Put", {"id": "r1", "status": "running", "alive": false, "onBase": false, "lastEvent": "other", "incoming": true, "queued": false, "claim": true, "reason": "", "work": true, "preserved": true, "preserveOk": false}]},
+    {"do": ["Recover"], "expect": {"last": "ok", "line": "crashed", "claim": "", "runs": {"r1": {"status": "failed", "reason": "crashed", "work": false, "incoming": false, "preserved": true, "cleanupPending": false, "queued": false}}}},
+    {"do": ["Recover"], "expect": {"last": "ok", "line": "unchanged", "claim": "", "runs": {"r1": {"status": "failed", "reason": "crashed", "work": false, "incoming": false, "preserved": true, "cleanupPending": false, "queued": false}}}}
+  ]
+}
